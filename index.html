@@ -3,30 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全网职通车 - 每日岗位自动聚合</title>
+    <title>全网职通车 | 每日岗位自动聚合</title>
     <style>
-        body { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background-color: #f4f7f6; margin: 0; color: #333; }
-        header { background: #00c2b8; color: white; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
-        .job-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: relative; }
-        .job-title { font-size: 18px; font-weight: bold; color: #000; margin-bottom: 8px; }
-        .salary { color: #ff4d4f; font-size: 18px; font-weight: bold; position: absolute; right: 20px; top: 20px; }
-        .tag { background: #f0f0f0; padding: 3px 8px; border-radius: 4px; font-size: 12px; margin-right: 5px; }
+        :root { --primary: #00c2b8; --bg: #f4f7f6; --text: #2c3e50; }
+        body { font-family: 'PingFang SC', sans-serif; background: var(--bg); margin: 0; color: var(--text); }
+        /* 导航头 */
+        nav { background: #fff; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-size: 20px; font-weight: 800; color: var(--primary); }
+        .brand-tag { font-size: 12px; color: #999; border-left: 1px solid #ddd; padding-left: 10px; }
+        
+        /* 顶部 Slogan */
+        .hero { background: var(--primary); color: white; padding: 60px 20px; text-align: center; }
+        .hero h1 { margin: 0; font-size: 2.5rem; letter-spacing: 2px; }
+        .hero p { opacity: 0.9; margin-top: 10px; }
+
+        .main-content { max-width: 900px; margin: -30px auto 50px; padding: 0 15px; }
+        
+        /* 筛选标签 */
+        .filter-bar { background: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; display: flex; gap: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .filter-item { padding: 5px 15px; border-radius: 20px; font-size: 14px; cursor: pointer; border: 1px solid #eee; }
+        .filter-item.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* 职位卡片 */
+        .job-list { display: grid; gap: 15px; }
+        .job-card { background: white; border-radius: 12px; padding: 25px; transition: 0.3s; border: 1px solid transparent; position: relative; overflow: hidden; }
+        .job-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: var(--primary); }
+        .job-card::before { content: "精准聚合"; position: absolute; top: 0; left: 0; background: #ff4d4f; color: white; font-size: 10px; padding: 2px 10px; border-bottom-right-radius: 10px; }
+        
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .title { font-size: 1.3rem; font-weight: bold; color: #000; }
+        .salary { color: #ff4d4f; font-size: 1.2rem; font-weight: bold; }
+        
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .tag { background: #f0f2f5; color: #666; padding: 4px 10px; border-radius: 5px; font-size: 12px; }
+        .tag-source { background: #e6f7f7; color: var(--primary); font-weight: bold; }
+
+        .btn-apply { display: block; width: 100%; text-align: center; padding: 12px; background: var(--text); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+        .btn-apply:hover { background: var(--primary); }
+
+        footer { text-align: center; padding: 40px; color: #999; font-size: 13px; }
     </style>
 </head>
 <body>
-<header><h1>全网职通车</h1><p>为你聚合全网最新真实岗位</p></header>
-<div class="container">
-    <div class="job-card">
-        <div class="job-title">新媒体运营/文员</div>
-        <div class="salary">5K - 8K</div>
-        <div><span class="tag">广州</span><span class="tag">经验不限</span><span class="tag">来自：全网聚合</span></div>
+
+<nav>
+    <div class="logo">全网职通车 <span class="brand-tag">零度逻辑 I 财经视角深度观察</span></div>
+</nav>
+
+<div class="hero">
+    <h1>高效求职 · 逻辑破局</h1>
+    <p>每天早晨 8 点自动更新全网真实优质岗位</p>
+</div>
+
+<div class="main-content">
+    <div class="filter-bar">
+        <div class="filter-item active">全部岗位</div>
+        <div class="filter-item">Web3 & 金融</div>
+        <div class="filter-item">远程/兼职</div>
+        <div class="filter-item">行政/文员</div>
     </div>
-    <div class="job-card">
-        <div class="job-title">远程在线客服</div>
-        <div class="salary">4K - 6K</div>
-        <div><span class="tag">远程办公</span><span class="tag">打字快优先</span><span class="tag">来自：精选推荐</span></div>
+
+    <div class="job-list" id="jobContainer">
+        <!-- 这里的卡片会被后台脚本自动替换 -->
+        <div class="job-card">
+            <div class="card-top">
+                <div class="title">Web3 交易研究员</div>
+                <div class="salary">25K - 45K</div>
+            </div>
+            <div class="tags">
+                <span class="tag tag-source">数据源：A Better Web3</span>
+                <span class="tag">远程办公</span>
+                <span class="tag">Binance 生态</span>
+                <span class="tag">英文流利</span>
+            </div>
+            <a href="https://abetterweb3.notion.site/" target="_blank" class="btn-apply">查看原始招聘链接</a>
+        </div>
     </div>
 </div>
+
+<footer>
+    © 2026 全网职通车 · 由 AI 驱动自动化更新
+</footer>
+
 </body>
 </html>
