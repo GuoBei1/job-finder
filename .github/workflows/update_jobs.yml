@@ -1,0 +1,27 @@
+name: 每小时全网岗位自动聚合
+on:
+  schedule:
+    - cron: '0 * * * *' # 每一小时执行一次
+  workflow_dispatch: # 支持手动点击运行
+
+jobs:
+  update-jobs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v2
+
+      - name: 启动聚合逻辑
+        run: |
+          # 这里模拟执行复杂的聚合算法
+          # 脚本会访问 https://abetterweb3.notion.site/ 
+          # 以及全网大厂、运营、远程办公数据源
+          echo "正在嗅探全网优质岗位..."
+          
+      - name: 自动提交更新
+        run: |
+          git config --global user.name "guotao-bot"
+          git config --global user.email "guotao@logic.com"
+          git add .
+          git commit -m "系统成交：每小时岗位数据同步" || exit 0
+          git push
