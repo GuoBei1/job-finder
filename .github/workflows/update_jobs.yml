@@ -11,12 +11,13 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v2
 
-      - name: 启动聚合逻辑
-        run: |
-          # 这里模拟执行复杂的聚合算法
-          # 脚本会访问 https://abetterweb3.notion.site/ 
-          # 以及全网大厂、运营、远程办公数据源
-          echo "正在嗅探全网优质岗位..."
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: 运行抓取脚本
+        run: python scraper.py
           
       - name: 自动提交更新
         run: |
