@@ -33,17 +33,23 @@ for job in job_database:
         </div>
     """
 
-# 读取并更新网页
+# 读取网页
 with open("index.html", "r", encoding="utf-8") as f:
     content = f.read()
 
-placeholder = '<!-- 核心动态区：由后台脚本每小时自动注入数据 -->'
-if placeholder in content:
-    # 逻辑优化：每次更新前先重置动态区内容，避免重复堆叠
-    parts = content.split(placeholder)
-    # 重新拼接：头部 + 占位符 + 最新全量岗位 + 尾部
-    new_content = parts[0] + placeholder + all_jobs_html + parts[1].split('</div>\n    </div>\n</div>', 1)[-1] 
-    # 注意：上面的切割逻辑是为了确保 HTML 结构不乱，如果运行有问题，请告诉我
+# 【精准定位逻辑】
+start_tag = '<!-- 核心动态区：由后台脚本每小时自动注入数据 -->'
+end_tag = '<!-- 核心动态区结束 -->'
+
+if start_tag in content and end_tag in content:
+    # 只替换两个标签之间的内容，保护网页其他部分不动
+    parts_start = content.split(start_tag)
+    parts_end = parts_start[1].split(end_tag)
+    
+    new_content = parts_start[0] + start_tag + "\n" + all_jobs_html + "\n    " + end_tag + parts_end[1]
     
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(new_content)
+    print("成交成功：网页内容已更新。")
+else:
+    print("错误：网页中未找到定位标签，请检查 index.html。")
