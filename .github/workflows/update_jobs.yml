@@ -1,20 +1,31 @@
 name: 每小时全网岗位自动聚合
+
 on:
   schedule:
     - cron: '0 * * * *' # 每一小时执行一次
   workflow_dispatch: # 支持手动点击运行
+
+# 关键：必须显式声明写入权限，否则 push 会失败
+permissions:
+  contents: write
 
 jobs:
   update-jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: 设置 Python 环境
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.10'
+
+      # 关键：安装脚本需要的 requests 库
+      - name: 安装 Python 依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
 
       - name: 运行抓取脚本
         run: python scraper.py
@@ -23,6 +34,7 @@ jobs:
         run: |
           git config --global user.name "guotao-bot"
           git config --global user.email "guotao@logic.com"
-          git add .
-          git commit -m "系统成交：每小时岗位数据同步" || exit 0
+          git add index.html
+          # 加上 [skip ci] 防止触发死循环，commit 信息我帮你保持了你的风格
+          git commit -m "系统成交：每小时岗位数据同步 [skip ci]" || exit 0
           git push
