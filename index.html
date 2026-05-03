@@ -20,8 +20,8 @@
         .main-content { max-width: 900px; margin: -30px auto 50px; padding: 0 15px; }
         
         /* 筛选标签 */
-        .filter-bar { background: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; display: flex; gap: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .filter-item { padding: 5px 15px; border-radius: 20px; font-size: 14px; cursor: pointer; border: 1px solid #eee; }
+        .filter-bar { background: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; display: flex; gap: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow-x: auto; }
+        .filter-item { padding: 5px 15px; border-radius: 20px; font-size: 14px; cursor: pointer; border: 1px solid #eee; white-space: nowrap; }
         .filter-item.active { background: var(--primary); color: white; border-color: var(--primary); }
 
         /* 职位卡片 */
@@ -47,12 +47,12 @@
 <body>
 
 <nav>
-    <div class="logo">全网职通车 <span class="brand-tag">每日岗位自动聚合</span></div>
+    <div class="logo">全网职通车 <span class="brand-tag">零度逻辑 | 财经视角深度观察</span></div>
 </nav>
 
 <div class="hero">
     <h1>高效求职 · 自动聚合</h1>
-    <p>每天早晨 8 点自动更新全网真实优质岗位</p>
+    <p>系统每小时自动同步全网真实优质岗位</p>
 </div>
 
 <div class="main-content">
@@ -60,34 +60,34 @@
         <div class="filter-item active">全部岗位</div>
         <div class="filter-item">Web3 & 金融</div>
         <div class="filter-item">远程/兼职</div>
+        <div class="filter-item">大厂运营</div>
         <div class="filter-item">行政/文员</div>
     </div>
 
     <div class="job-list" id="jobContainer">
-        <!-- 这里的卡片会被后台脚本自动替换 -->
+        <!-- 核心动态区：由后台脚本每小时自动注入数据 -->
         <div class="job-card">
             <div class="card-top">
                 <div class="title">Web3 交易研究员</div>
                 <div class="salary">25K - 45K</div>
             </div>
             <div class="tags">
-                <span class="tag tag-source">数据源：A Better Web3</span>
+                <span class="tag tag-source">来自：A Better Web3</span>
                 <span class="tag">远程办公</span>
                 <span class="tag">Binance 生态</span>
                 <span class="tag">英文流利</span>
             </div>
-            <a href="https://abetterweb3.notion.site/" target="_blank" class="btn-apply">查看原始招聘链接</a>
+            <a href="https://abetterweb3.notion.site/" target="_blank" class="btn-apply">查看并申请</a>
         </div>
     </div>
 </div>
 
 <footer>
     <div style="font-size: 11px; color: #bbb; max-width: 700px; margin: 0 auto; line-height: 1.6;">
-        <p>© 2026 WEB3全网职通车 · 由 AI 驱动自动化更新</p>
-        <p><strong>法律声明：</strong>本平台仅提供岗位信息的检索与导航服务，所有内容均通过自动化脚本聚合自互联网公开渠道（如 A Better Web3 等）。<br>
+        <p>© 2026 全网职通车 · 由AI驱动自动化更新</p>
+        <p><strong>法律声明：</strong>本平台仅提供岗位信息的检索与导航服务，所有内容均通过自动化脚本聚合自互联网公开渠道（如 A Better Web3、各厂官网等）。<br>
         平台不存储、不修改原始招聘信息，点击“查看详情”将直接跳转至原发布平台。若原权利人认为相关聚合行为侵犯其合法权益，请联系我们处理。</p>
     </div>
-</footer>
 </footer>
 
 </body>
